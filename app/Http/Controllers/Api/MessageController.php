@@ -4,22 +4,13 @@ namespace App\Http\Controllers\Api;
 
 use App\Contracts\MessageStore;
 use App\Http\Controllers\Controller;
-use App\Models\Message;
-use Illuminate\Http\Request;
+use App\Http\Requests\MessageRequest;
 
 class MessageController extends Controller
 {
-    public function index() { //?
-        return Message::all();
-    }
+    public function store(MessageRequest $request, MessageStore $messageStore): array {
+        $messageStore->store($request->name, $request->phone, $request->text);
 
-    public function store(Request $request, MessageStore $messageStore) {
-        $v = $request->validate([
-            'name' => 'required|max:50',
-            'phone' => 'required|max:20',
-            'text' => 'required',
-        ]);
-
-        $messageStore->store($v['name'], $v['phone'], $v['text']);
+        return ['status' => 'ok'];
     }
 }
