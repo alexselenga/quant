@@ -2,10 +2,16 @@
 
 namespace App\Providers;
 
+use App\Contracts\MessageStore;
+use App\Services\MessageStoreDB;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
 {
+    public $singletons = [
+        MessageStore::class => MessageStoreDB::class,
+    ];
+
     /**
      * Register any application services.
      *
